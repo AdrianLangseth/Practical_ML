@@ -130,8 +130,8 @@ def clean_feature_engineer(fp_train:str = "../tdt05-2021-challenge-2/challenge2_
 
     # ToDo: need to do ordinal on this
     for nom in high_cardinality_noms:
-        X_tr[nom] = X_tr[nom].apply(lambda x: int(x[0], base=16) / 16 if pd.notnull(x) else x)
-        X_ts[nom] = X_ts[nom].apply(lambda x: int(x[0], base=16) / 16 if pd.notnull(x) else x)
+        X_tr[nom] = X_tr[nom].apply(lambda x: int(x[0], 16) if pd.notnull(x) else x)
+        X_ts[nom] = X_ts[nom].apply(lambda x: int(x[0], 16) if pd.notnull(x) else x)
 
     # CYCLICAL
 
@@ -181,13 +181,20 @@ def clean_feature_engineer(fp_train:str = "../tdt05-2021-challenge-2/challenge2_
     return X_tr, X_ts, y_tr
 
 
-if __name__ == '__main__':
-    fp_train = "../tdt05-2021-challenge-2/challenge2_train.csv"
-    fp_test = "../tdt05-2021-challenge-2/challenge2_test.csv"
+def humor():
     X_tr, X_ts, y_tr = clean_feature_engineer()
-    print(X_tr.dtypes)
-    print(X_ts.dtypes)
-    print(y_tr.dtypes)
+    newtrain = X_tr[['f2', 'f3', 'f10', 'f13', 'f1_0', 'f1_1', 'f16_sin', 'f16_cos']]
+    newtest = X_ts[['f2', 'f3', 'f10', 'f13', 'f1_0', 'f1_1', 'f16_sin', 'f16_cos']]
+    return newtrain, newtest, y_tr
+
+
+
+
+if __name__ == '__main__':
+    x, _, _ = clean_feature_engineer()
+    print(x.dtypes)
+
+
 
 
 
